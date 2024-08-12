@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.rcParams['figure.dpi'] = 150
+plt.rcParams['figure.figsize'] = (10,5)
+import warnings
+warnings.filterwarnings('ignore')
+%matplotlib inline
+
+#Read data
+df = pd.read_csv('https://raw.githubusercontent.com/Shrikrishna-jadhavar/Data-Science-Material/main/Dataset/NewspaperData.csv')
+df
+
+#Select relevant columns
+
+df[['daily']]
+
+df = df[['daily','sunday']]
+df
+
+#Correlation analysis
+
+sns.scatterplot(x = df['daily'],y = df['sunday'])
+
+df.corr()
+
+sns.heatmap(df.corr(),annot=True)
+
+#Import statsmodels
+
+import statsmodels.formula.api as smf
+
+model = smf.ols('sunday~daily',data=df).fit()
+model
+
+#Model parameters (slope, intercept)
+model.params
+
+df.head()
+
+#line equation
+c = 13.83
+m = 1.33
+daily = 450
+
+sunday = m*daily+c
+sunday
+
+#r2 value
+model.rsquared
+
+# Prediction for new data
+
+data = {
+    'Name': ['A','B','C'],
+    'Age' : [23,22,21],
+    'Location':['Pune','Mumbai','Goa']
+}
+
+data
+type(data)
+
+pd.DataFrame(data)
+
+pd.DataFrame({
+    'Name': ['A','B','C'],
+    'Age' : [23,22,21],
+    'Location':['Pune','Mumbai','Goa']
+})
+
+test = pd.DataFrame({
+    'daily' : [102,552,850,654,759,789,654,999]
+})
+test
+
+model.predict(test)
